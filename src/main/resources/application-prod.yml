@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/leitner-system-automaton
+    username: lsa
+    password: lsa
+    driverClassName: org.postgresql.Driver
+
+sql:
+  init:
+    platform: postgresql
