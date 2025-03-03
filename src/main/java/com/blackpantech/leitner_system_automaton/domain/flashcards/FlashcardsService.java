@@ -40,9 +40,13 @@ public class FlashcardsService {
      *
      * @throws FlashcardNotFoundException if no flashcard has given ID
      */
-    public Flashcard editFlashcard(final long id, final String question, final String answer, final String[] tags)
+    public Flashcard editFlashcard(final long id,
+                                   final String question,
+                                   final String answer,
+                                   final String[] tags,
+                                   final Box box)
             throws FlashcardNotFoundException {
-        return flashcardsRepository.editFlashcard(id, question, answer, tags);
+        return flashcardsRepository.editFlashcard(id, question, answer, tags, box);
     }
 
     /**

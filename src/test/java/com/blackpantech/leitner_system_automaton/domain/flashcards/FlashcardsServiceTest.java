@@ -32,7 +32,7 @@ public class FlashcardsServiceTest {
     @ParameterizedTest
     @CsvSource({
             "What is the capital of France?, Paris, Geography",
-            "What is the return code range for server errors?, 500, Programmation"
+            "What is the return code range for server errors?, 500, Programming"
     })
     @DisplayName("should create new flashcard")
     void shouldCreateFlashcard(final String question, final String answer, final String tags) {
@@ -49,26 +49,26 @@ public class FlashcardsServiceTest {
     @ParameterizedTest
     @CsvSource({
             "10, What is the capital of France?, Paris, Geography",
-            "45, What is the return code range for server errors?, 500, Programmation"
+            "45, What is the return code range for server errors?, 500, Programming"
     })
     @DisplayName("should edit an existing flashcard")
     void shouldEditFlashcard(final long id, final String question, final String answer, final String tags)
             throws FlashcardNotFoundException {
         final Flashcard expectedFlashcard = new Flashcard(id, question, answer, new String[]{tags}, dummyBox);
-        when(flashcardsRepository.editFlashcard(id, question, answer, new String[]{tags}))
+        when(flashcardsRepository.editFlashcard(id, question, answer, new String[]{tags}, dummyBox))
                 .thenReturn(expectedFlashcard);
 
-        final Flashcard editedFlashcard = flashcardsService.editFlashcard(id, question, answer, new String[]{tags});
+        final Flashcard editedFlashcard = flashcardsService.editFlashcard(id, question, answer, new String[]{tags}, dummyBox);
 
         assertEquals(expectedFlashcard, editedFlashcard);
-        verify(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags});
+        verify(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags}, dummyBox);
         verifyNoMoreInteractions(flashcardsRepository);
     }
 
     @ParameterizedTest
     @CsvSource({
             "10, What is the capital of France?, Paris, Geography",
-            "45, What is the return code range for server errors?, 500, Programmation"
+            "45, What is the return code range for server errors?, 500, Programming"
     })
     @DisplayName("should throw not found when editing a flashcard")
     void shouldThrowFlashcardNotFoundException_whenEditFlashcard(final long id,
@@ -77,12 +77,12 @@ public class FlashcardsServiceTest {
                                                                  final String tags)
             throws FlashcardNotFoundException {
         doThrow(new FlashcardNotFoundException(id))
-                .when(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags});
+                .when(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags}, dummyBox);
 
         assertThrows(FlashcardNotFoundException.class,
-                () -> flashcardsService.editFlashcard(id, question, answer, new String[]{tags}));
+                () -> flashcardsService.editFlashcard(id, question, answer, new String[]{tags}, dummyBox));
 
-        verify(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags});
+        verify(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags}, dummyBox);
         verifyNoMoreInteractions(flashcardsRepository);
     }
 

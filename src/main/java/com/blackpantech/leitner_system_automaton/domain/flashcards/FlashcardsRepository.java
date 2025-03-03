@@ -32,7 +32,11 @@ public interface FlashcardsRepository {
      *
      * @throws FlashcardNotFoundException if no flashcard has given ID
      */
-    Flashcard editFlashcard(final long id, final String question, final String answer, final String[] tags)
+    Flashcard editFlashcard(final long id,
+                            final String question,
+                            final String answer,
+                            final String[] tags,
+                            final Box currentBox)
             throws FlashcardNotFoundException;
 
     /**
@@ -70,5 +74,24 @@ public interface FlashcardsRepository {
      * @return list of all flashcards with given tag
      */
     List<Flashcard> getAllFlashcardsWithTag(final String tag);
+
+    /**
+     * Gets a list of all flashcards from a box, given the box ID
+     *
+     * @param boxId ID of the box to flashcards from
+     *
+     * @return list of all flashcards from a box
+     */
+    List<Flashcard> getAllFlashcardsFromBox(final long boxId);
+
+    /**
+     * Gets a list of all flashcards from a box, given the box ID and a flashcard tag
+     *
+     * @param boxId ID of the box to flashcards from
+     * @param tag tag to filter all flashcards from box
+     *
+     * @return list of all flashcards from a box
+     */
+    List<Flashcard> getAllFlashcardsWithTagFromBox(final long boxId, final String tag);
 
 }
