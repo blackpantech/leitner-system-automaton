@@ -6,6 +6,7 @@ import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotF
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JPA implementation of the boxes repository
@@ -23,13 +24,28 @@ public class JpaBoxesRepository implements BoxesRepository {
     }
 
     @Override
-    public Box getBox(long id) throws BoxNotFoundException {
-        return null;
+    public Box getBox(final long id) throws BoxNotFoundException {
+        final Optional<BoxEntity> optionalBox = boxesJpaRepository.findById(id);
+
+        final BoxEntity box = getBoxFromOptionalBox(id, optionalBox);
+
+        return boxEntityMapper.BoxEntityToBox(box);
+    }
+
+    private BoxEntity getBoxFromOptionalBox(final long id, final Optional<BoxEntity> optionalBox)
+            throws BoxNotFoundException {
+        if (optionalBox.isEmpty()) {
+            throw new BoxNotFoundException(id);
+        }
+
+        return optionalBox.get();
     }
 
     @Override
     public List<Box> getAllBoxes() {
-        return List.of();
+        final List<BoxEntity> boxes = boxesJpaRepository.findAll();
+
+        return boxEntityMapper.BoxEntitiesToBoxes(boxes);
     }
 
 }
