@@ -1,5 +1,7 @@
 package com.blackpantech.leitner_system_automaton.domain.flashcards;
 
+import com.blackpantech.leitner_system_automaton.domain.boxes.Box;
+
 /**
  * Domain object for flashcards
  *

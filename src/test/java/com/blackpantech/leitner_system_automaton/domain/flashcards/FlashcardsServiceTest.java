@@ -1,5 +1,6 @@
 package com.blackpantech.leitner_system_automaton.domain.flashcards;
 
+import com.blackpantech.leitner_system_automaton.domain.boxes.Box;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

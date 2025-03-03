@@ -1,10 +1,10 @@
 package com.blackpantech.leitner_system_automaton.domain.leitner_system;
 
-import com.blackpantech.leitner_system_automaton.domain.flashcards.Box;
-import com.blackpantech.leitner_system_automaton.domain.flashcards.BoxesRepository;
+import com.blackpantech.leitner_system_automaton.domain.boxes.Box;
+import com.blackpantech.leitner_system_automaton.domain.boxes.BoxesRepository;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.Flashcard;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsRepository;
-import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.BoxNotFoundException;
+import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

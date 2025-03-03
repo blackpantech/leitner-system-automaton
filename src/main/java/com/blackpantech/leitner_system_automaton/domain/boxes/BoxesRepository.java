@@ -1,6 +1,6 @@
-package com.blackpantech.leitner_system_automaton.domain.flashcards;
+package com.blackpantech.leitner_system_automaton.domain.boxes;
 
-import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.BoxNotFoundException;
+import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 
 import java.util.List;
 

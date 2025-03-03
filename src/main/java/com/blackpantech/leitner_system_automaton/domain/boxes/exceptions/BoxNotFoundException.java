@@ -1,4 +1,4 @@
-package com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions;
+package com.blackpantech.leitner_system_automaton.domain.boxes.exceptions;
 
 /**
  * Checked exception when a fetched flashcard is not found

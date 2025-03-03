@@ -1,4 +1,4 @@
-package com.blackpantech.leitner_system_automaton.domain.flashcards;
+package com.blackpantech.leitner_system_automaton.domain.boxes;
 
 /**
  * Domain object for the box in which flashcards are stored
