@@ -56,4 +56,14 @@ public class JpaBoxesRepository implements BoxesRepository {
         return boxEntityMapper.BoxEntitiesToBoxes(boxes);
     }
 
+    @Override
+    public long getFirstBoxId() {
+        return boxesJpaRepository.findFirstByOrderByFrequency().getId();
+    }
+
+    @Override
+    public long getLastBoxId() {
+        return boxesJpaRepository.findFirstByOrderByFrequencyDesc().getId();
+    }
+
 }

@@ -36,4 +36,14 @@ public class BoxesJpaRepositoryTest {
         assertEquals(boxes.getFirst(), firstBox);
     }
 
+    @Test
+    @DisplayName("should find the last box with greatest frequency")
+    void shouldFindFirstByOrderByFrequencyDesc() {
+        boxesJpaRepository.saveAll(boxes);
+
+        final BoxEntity firstBox = boxesJpaRepository.findFirstByOrderByFrequencyDesc();
+
+        assertEquals(boxes.getLast(), firstBox);
+    }
+
 }

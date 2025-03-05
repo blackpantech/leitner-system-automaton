@@ -19,10 +19,6 @@ public class LeitnerSystemService {
 
     private final BoxesRepository boxesRepository;
 
-    private static final long FIRST_BOX_ID = 0L;
-
-    private static final long LAST_BOX_ID = 6L;
-
     public LeitnerSystemService(final FlashcardsRepository flashcardsRepository, final BoxesRepository boxesRepository) {
         this.flashcardsRepository = flashcardsRepository;
         this.boxesRepository = boxesRepository;
@@ -144,7 +140,7 @@ public class LeitnerSystemService {
      * @return incremented box ID if isCorrect is true, else first box ID
      */
     private long getNextBoxId(final boolean isCorrect, final long boxId) {
-        return isCorrect ? boxId + 1L : FIRST_BOX_ID;
+        return isCorrect ? boxId + 1L : boxesRepository.getFirstBoxId();
     }
 
     /**
@@ -158,7 +154,7 @@ public class LeitnerSystemService {
      */
     private void moveOrDeleteFlashcard(final long nextBoxId, final Flashcard flashcard)
             throws BoxNotFoundException, FlashcardNotFoundException {
-        if (nextBoxId <= LAST_BOX_ID) {
+        if (nextBoxId <= boxesRepository.getLastBoxId()) {
             final Box nextBox = boxesRepository.getBox(nextBoxId);
             flashcardsRepository.editFlashcard(flashcard.id(), flashcard.question(), flashcard.answer(), flashcard.tags(), nextBox);
         } else {

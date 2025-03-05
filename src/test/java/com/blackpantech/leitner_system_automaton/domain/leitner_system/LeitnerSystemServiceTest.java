@@ -2,10 +2,11 @@ package com.blackpantech.leitner_system_automaton.domain.leitner_system;
 
 import com.blackpantech.leitner_system_automaton.domain.boxes.Box;
 import com.blackpantech.leitner_system_automaton.domain.boxes.BoxesRepository;
+import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.Flashcard;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsRepository;
-import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -43,6 +44,12 @@ public class LeitnerSystemServiceTest {
             new Box(5L, 32),
             new Box(6L, 64)
     );
+
+    @BeforeEach
+    void commonMocks() {
+        when(boxesRepository.getFirstBoxId()).thenReturn(boxes.getFirst().id());
+        when(boxesRepository.getLastBoxId()).thenReturn(boxes.getLast().id());
+    }
 
     long[] convertCharArrayToLongArray(final char[] chars) {
         long[] longs = new long[chars.length];
@@ -140,6 +147,10 @@ public class LeitnerSystemServiceTest {
         }
 
         verify(flashcardsRepository).getFlashcard(id);
+        verify(boxesRepository).getLastBoxId();
+        if (!isCorrect) {
+            verify(boxesRepository).getFirstBoxId();
+        }
         verifyNoMoreInteractions(flashcardsRepository, boxesRepository);
     }
 

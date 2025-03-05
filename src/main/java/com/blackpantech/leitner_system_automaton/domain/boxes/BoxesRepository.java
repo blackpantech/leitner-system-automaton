@@ -27,4 +27,18 @@ public interface BoxesRepository {
      */
     List<Box> getAllBoxes();
 
+    /**
+     * Gets first box ID
+     *
+     * @return first box ID
+     */
+    long getFirstBoxId();
+
+    /**
+     * Gets last box ID
+     *
+     * @return last box ID
+     */
+    long getLastBoxId();
+
 }

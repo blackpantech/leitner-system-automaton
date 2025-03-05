@@ -6,4 +6,6 @@ public interface BoxesJpaRepository extends JpaRepository<BoxEntity, Long> {
 
     BoxEntity findFirstByOrderByFrequency();
 
+    BoxEntity findFirstByOrderByFrequencyDesc();
+
 }
