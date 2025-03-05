@@ -67,7 +67,7 @@ public class LeitnerSystemServiceTest {
             "96, '012345'"
     })
     @DisplayName("should get daily questionnaire")
-    void shouldGetDailyQuestionnaire(final int daysSinceBeginning, final String boxesIdString) {
+    void shouldGetDailyQuestionnaire(final int daysSinceBeginning, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {
@@ -92,7 +92,7 @@ public class LeitnerSystemServiceTest {
             "16, Programming, '01234'"
     })
     @DisplayName("should get daily questionnaire with specific tag")
-    void shouldGetDailyQuestionnaireWithTag(final int daysSinceBeginning, final String tag, final String boxesIdString) {
+    void shouldGetDailyQuestionnaireWithTag(final int daysSinceBeginning, final String tag, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {

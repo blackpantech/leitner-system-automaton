@@ -1,6 +1,7 @@
 package com.blackpantech.leitner_system_automaton.domain.flashcards;
 
 import com.blackpantech.leitner_system_automaton.domain.boxes.Box;
+import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
 
 import java.util.List;
@@ -83,7 +84,7 @@ public interface FlashcardsRepository {
      *
      * @return list of all flashcards from a box
      */
-    List<Flashcard> getAllFlashcardsFromBox(final long boxId);
+    List<Flashcard> getAllFlashcardsFromBox(final long boxId) throws BoxNotFoundException;
 
     /**
      * Gets a list of all flashcards from a box, given the box ID and a flashcard tag
@@ -93,6 +94,6 @@ public interface FlashcardsRepository {
      *
      * @return list of all flashcards from a box
      */
-    List<Flashcard> getAllFlashcardsWithTagFromBox(final long boxId, final String tag);
+    List<Flashcard> getAllFlashcardsWithTagFromBox(final long boxId, final String tag) throws BoxNotFoundException;
 
 }

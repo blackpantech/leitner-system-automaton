@@ -9,8 +9,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @Entity
-@Table(name = "BOXES")
+@Table(name = "FLASHCARDS")
 public class FlashcardEntity {
 
     @Id
@@ -60,4 +63,37 @@ public class FlashcardEntity {
     public long getId() {
         return id;
     }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    public void setCurrentBox(BoxEntity currentBox) {
+        this.currentBox = currentBox;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        FlashcardEntity flashcard = (FlashcardEntity) o;
+        return id == flashcard.id &&
+                Objects.equals(question, flashcard.question) &&
+                Objects.equals(answer, flashcard.answer) &&
+                Objects.deepEquals(tags, flashcard.tags) &&
+                Objects.equals(currentBox, flashcard.currentBox);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, question, answer, Arrays.hashCode(tags), currentBox);
+    }
+
 }

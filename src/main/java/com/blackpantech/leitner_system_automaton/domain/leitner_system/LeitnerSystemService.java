@@ -81,7 +81,13 @@ public class LeitnerSystemService {
     private List<Flashcard> getFlashcardsFromBoxes(final List<Box> boxes) {
         List<Flashcard> dailyFlashcards = new ArrayList<>();
 
-        boxes.forEach(box -> dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsFromBox(box.id())));
+        boxes.forEach(box -> {
+            try {
+                dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsFromBox(box.id()));
+            } catch (BoxNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return dailyFlashcards;
     }
@@ -98,7 +104,13 @@ public class LeitnerSystemService {
         List<Flashcard> dailyFlashcards = new ArrayList<>();
 
         boxes.forEach(box ->
-                dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsWithTagFromBox(box.id(), tag)));
+        {
+            try {
+                dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsWithTagFromBox(box.id(), tag));
+            } catch (BoxNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return dailyFlashcards;
     }
