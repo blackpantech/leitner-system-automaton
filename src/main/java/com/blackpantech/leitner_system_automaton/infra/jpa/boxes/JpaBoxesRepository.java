@@ -25,15 +25,23 @@ public class JpaBoxesRepository implements BoxesRepository {
 
     @Override
     public Box getBox(final long id) throws BoxNotFoundException {
-        final Optional<BoxEntity> optionalBox = boxesJpaRepository.findById(id);
-
-        final BoxEntity box = getBoxFromOptionalBox(id, optionalBox);
+        final BoxEntity box = getNonOptionalBox(id);
 
         return boxEntityMapper.BoxEntityToBox(box);
     }
 
-    private BoxEntity getBoxFromOptionalBox(final long id, final Optional<BoxEntity> optionalBox)
-            throws BoxNotFoundException {
+    /**
+     * Gets potentially non-existing box
+     *
+     * @param id ID of the box to get
+     *
+     * @return found box with given ID
+     *
+     * @throws BoxNotFoundException if no box was found with given ID
+     */
+    private BoxEntity getNonOptionalBox(final long id) throws BoxNotFoundException {
+        final Optional<BoxEntity> optionalBox = boxesJpaRepository.findById(id);
+
         if (optionalBox.isEmpty()) {
             throw new BoxNotFoundException(id);
         }

@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,4 +45,19 @@ public class BoxEntity {
     public long getId() {
         return id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BoxEntity boxEntity = (BoxEntity) o;
+        return id == boxEntity.id &&
+                frequency == boxEntity.frequency &&
+                Objects.equals(flashcards, boxEntity.flashcards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, frequency, flashcards);
+    }
+
 }

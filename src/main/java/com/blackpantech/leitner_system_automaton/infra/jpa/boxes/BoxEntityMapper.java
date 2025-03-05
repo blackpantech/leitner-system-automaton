@@ -21,6 +21,15 @@ public interface BoxEntityMapper {
     Box BoxEntityToBox(final BoxEntity boxEntity);
 
     /**
+     * Mapper Domain Box Object -> JPA Box Object
+     *
+     * @param box Domain Box Object
+     *
+     * @return JPA Box Object
+     */
+    BoxEntity BoxToBoxEntity(final Box box);
+
+    /**
      * Mapper list of JPA Box Objects -> list of Domain Box Objects
      *
      * @param boxEntities list of JPA Box Objects
