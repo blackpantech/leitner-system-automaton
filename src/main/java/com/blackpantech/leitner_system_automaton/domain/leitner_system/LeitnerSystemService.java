@@ -25,46 +25,46 @@ public class LeitnerSystemService {
     }
 
     /**
-     * Gets daily flashcards
+     * Gets session flashcards
      *
-     * @param daysSinceBeginning number of days since the beginning of the study plan
+     * @param numberOfSessions number of sessions since the beginning of the study plan
      *
-     * @return daily flashcards
+     * @return session flashcards
      */
-    public List<Flashcard> getDailyQuestionnaire(final int daysSinceBeginning) {
+    public List<Flashcard> getSessionQuestionnaire(final int numberOfSessions) {
         final List<Box> boxes = boxesRepository.getAllBoxes();
 
-        final List<Box> dailyBoxes = getDailyBoxes(daysSinceBeginning, boxes);
+        final List<Box> sessionBoxes = getSessionBoxes(numberOfSessions, boxes);
 
-        return getFlashcardsFromBoxes(dailyBoxes);
+        return getFlashcardsFromBoxes(sessionBoxes);
     }
 
     /**
-     * Gets daily flashcards
+     * Gets session flashcards
      *
-     * @param daysSinceBeginning number of days since the beginning of the study plan
-     * @param tag tag to filter daily flashcards
+     * @param numberOfSessions number of sessions since the beginning of the study plan
+     * @param tag tag to filter session flashcards
      *
-     * @return daily flashcards with tag
+     * @return session flashcards with tag
      */
-    public List<Flashcard> getDailyQuestionnaireWithTag(final int daysSinceBeginning, final String tag) {
+    public List<Flashcard> getSessionQuestionnaireWithTag(final int numberOfSessions, final String tag) {
         final List<Box> boxes = boxesRepository.getAllBoxes();
 
-        final List<Box> dailyBoxes = getDailyBoxes(daysSinceBeginning, boxes);
+        final List<Box> sessionBoxes = getSessionBoxes(numberOfSessions, boxes);
 
-        return getFlashcardsWithTagFromBoxes(dailyBoxes, tag);
+        return getFlashcardsWithTagFromBoxes(sessionBoxes, tag);
     }
 
     /**
-     * Gets today's boxes with the number of days since the beginning of the study plan
+     * Gets session's boxes with the number of sessions since the beginning of the study plan
      *
-     * @param daysSinceBeginning number of days since the beginning of the study plan
+     * @param numberOfSessions number of sessions since the beginning of the study plan
      * @param boxes boxes to filter
      *
-     * @return today's boxes
+     * @return session's boxes
      */
-    private List<Box> getDailyBoxes(final int daysSinceBeginning, final List<Box> boxes) {
-        return boxes.stream().filter(box -> daysSinceBeginning % box.frequency() == 0).toList();
+    private List<Box> getSessionBoxes(final int numberOfSessions, final List<Box> boxes) {
+        return boxes.stream().filter(box -> numberOfSessions % box.frequency() == 0).toList();
     }
 
     /**
@@ -75,40 +75,40 @@ public class LeitnerSystemService {
      * @return flashcards in given boxes
      */
     private List<Flashcard> getFlashcardsFromBoxes(final List<Box> boxes) {
-        List<Flashcard> dailyFlashcards = new ArrayList<>();
+        List<Flashcard> sessionFlashcards = new ArrayList<>();
 
         boxes.forEach(box -> {
             try {
-                dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsFromBox(box.id()));
+                sessionFlashcards.addAll(flashcardsRepository.getAllFlashcardsFromBox(box.id()));
             } catch (BoxNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        return dailyFlashcards;
+        return sessionFlashcards;
     }
 
     /**
      * Gets flashcards with given tag from given boxes
      *
      * @param boxes boxes to get flashcards from
-     * @param tag tag to filter daily flashcards
+     * @param tag tag to filter session flashcards
      *
      * @return flashcards with given tag in given boxes
      */
     private List<Flashcard> getFlashcardsWithTagFromBoxes(final List<Box> boxes, final String tag) {
-        List<Flashcard> dailyFlashcards = new ArrayList<>();
+        List<Flashcard> sessionFlashcards = new ArrayList<>();
 
         boxes.forEach(box ->
         {
             try {
-                dailyFlashcards.addAll(flashcardsRepository.getAllFlashcardsWithTagFromBox(box.id(), tag));
+                sessionFlashcards.addAll(flashcardsRepository.getAllFlashcardsWithTagFromBox(box.id(), tag));
             } catch (BoxNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        return dailyFlashcards;
+        return sessionFlashcards;
     }
 
     /**

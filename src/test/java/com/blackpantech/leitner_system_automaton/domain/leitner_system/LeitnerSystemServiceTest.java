@@ -73,8 +73,8 @@ public class LeitnerSystemServiceTest {
             "64, '0123456'",
             "96, '012345'"
     })
-    @DisplayName("should get daily questionnaire")
-    void shouldGetDailyQuestionnaire(final int daysSinceBeginning, final String boxesIdString) throws BoxNotFoundException {
+    @DisplayName("should get session questionnaire")
+    void shouldGetSessionQuestionnaire(final int numberOfSessions, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {
@@ -85,9 +85,9 @@ public class LeitnerSystemServiceTest {
             );
         }
 
-        final List<Flashcard> dailyQuestionnaire = leitnerSystemService.getDailyQuestionnaire(daysSinceBeginning);
+        final List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaire(numberOfSessions);
 
-        assertEquals(boxesId.length, dailyQuestionnaire.size());
+        assertEquals(boxesId.length, sessionQuestionnaire.size());
         verify(boxesRepository).getAllBoxes();
         verify(flashcardsRepository, times(boxesId.length)).getAllFlashcardsFromBox(anyLong());
         verifyNoMoreInteractions(boxesRepository, flashcardsRepository);
@@ -98,8 +98,8 @@ public class LeitnerSystemServiceTest {
             "1, Geography, '0'",
             "16, Programming, '01234'"
     })
-    @DisplayName("should get daily questionnaire with specific tag")
-    void shouldGetDailyQuestionnaireWithTag(final int daysSinceBeginning, final String tag, final String boxesIdString) throws BoxNotFoundException {
+    @DisplayName("should get session questionnaire with specific tag")
+    void shouldGetSessionQuestionnaireWithTag(final int numberOfSessions, final String tag, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {
@@ -110,9 +110,9 @@ public class LeitnerSystemServiceTest {
             );
         }
 
-        List<Flashcard> dailyQuestionnaire = leitnerSystemService.getDailyQuestionnaireWithTag(daysSinceBeginning, tag);
+        List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaireWithTag(numberOfSessions, tag);
 
-        assertEquals(boxesId.length, dailyQuestionnaire.size());
+        assertEquals(boxesId.length, sessionQuestionnaire.size());
         verify(boxesRepository).getAllBoxes();
         verify(flashcardsRepository, times(boxesId.length)).getAllFlashcardsWithTagFromBox(anyLong(), eq(tag));
         verifyNoMoreInteractions(boxesRepository, flashcardsRepository);
