@@ -2,7 +2,6 @@ package com.blackpantech.leitner_system_automaton.infra.jpa.flashcards;
 
 import com.blackpantech.leitner_system_automaton.infra.jpa.boxes.BoxEntity;
 import com.blackpantech.leitner_system_automaton.infra.jpa.boxes.BoxesJpaRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,10 +9,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -24,30 +24,6 @@ public class FlashcardsJpaRepositoryTest {
 
     @Autowired
     FlashcardsJpaRepository flashcardsJpaRepository;
-
-    final List<BoxEntity> boxes = Arrays.asList(
-            new BoxEntity(1),
-            new BoxEntity(2),
-            new BoxEntity(4),
-            new BoxEntity(8),
-            new BoxEntity(16),
-            new BoxEntity(32),
-            new BoxEntity(64)
-    );
-
-    final List<FlashcardEntity> flashcards = Arrays.asList(
-            new FlashcardEntity("question 1", "answer 1", new String[]{"Geography"}, boxes.getFirst()),
-            new FlashcardEntity("question 2", "answer 2", new String[]{"Programming"}, boxes.get(2)),
-            new FlashcardEntity("question 3", "answer 3", new String[]{"Java"}, boxes.get(2)),
-            new FlashcardEntity("question 4", "answer 4", new String[]{"Maths"}, boxes.get(4)),
-            new FlashcardEntity("question 5", "answer 5", new String[]{"Geography"}, boxes.getLast())
-    );
-
-    @BeforeAll
-    void init() {
-        boxesJpaRepository.saveAll(boxes);
-        flashcardsJpaRepository.saveAll(flashcards);
-    }
 
     @ParameterizedTest
     @CsvSource({
@@ -73,8 +49,12 @@ public class FlashcardsJpaRepositoryTest {
             "5, 0"
     })
     @DisplayName("should find all by current box")
-    void shouldFindAllByCurrentBox(final int boxIndex, final int expectedNumberOfElements) {
-        final List<FlashcardEntity> flashcardsFromBox = flashcardsJpaRepository.findAllByCurrentBox(boxes.get(boxIndex));
+    void shouldFindAllByCurrentBox(final long boxId, final int expectedNumberOfElements) {
+        final Optional<BoxEntity> box = boxesJpaRepository.findById(boxId);
+        if (box.isEmpty()) {
+            fail();
+        }
+        final List<FlashcardEntity> flashcardsFromBox = flashcardsJpaRepository.findAllByCurrentBox(box.get());
 
         assertEquals(expectedNumberOfElements, flashcardsFromBox.size());
     }
@@ -87,8 +67,12 @@ public class FlashcardsJpaRepositoryTest {
             "Programming, 0, 0",
     })
     @DisplayName("should find all flashcards with tag by current box")
-    void shouldFindAllByCurrentBox(final String tag, final int boxIndex, final int expectedNumberOfElements) {
-        final List<FlashcardEntity> flashcardsFromBox = flashcardsJpaRepository.findAllWithTagInBox(tag, boxes.get(boxIndex));
+    void shouldFindAllByCurrentBox(final String tag, final long boxId, final int expectedNumberOfElements) {
+        final Optional<BoxEntity> box = boxesJpaRepository.findById(boxId);
+        if (box.isEmpty()) {
+            fail();
+        }
+        final List<FlashcardEntity> flashcardsFromBox = flashcardsJpaRepository.findAllWithTagInBox(tag, box.get());
 
         assertEquals(expectedNumberOfElements, flashcardsFromBox.size());
     }

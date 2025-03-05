@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class BoxesJpaRepositoryTest {
@@ -29,21 +29,23 @@ public class BoxesJpaRepositoryTest {
     @Test
     @DisplayName("should find the first box with smallest frequency")
     void shouldFindFirstByOrderByFrequency() {
-        boxesJpaRepository.saveAll(boxes);
-
         final BoxEntity firstBox = boxesJpaRepository.findFirstByOrderByFrequency();
 
-        assertEquals(boxes.getFirst(), firstBox);
+        assertThat(firstBox)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "flashcards")
+                .isEqualTo(boxes.getFirst());
     }
 
     @Test
     @DisplayName("should find the last box with greatest frequency")
     void shouldFindFirstByOrderByFrequencyDesc() {
-        boxesJpaRepository.saveAll(boxes);
+        final BoxEntity lastBox = boxesJpaRepository.findFirstByOrderByFrequencyDesc();
 
-        final BoxEntity firstBox = boxesJpaRepository.findFirstByOrderByFrequencyDesc();
-
-        assertEquals(boxes.getLast(), firstBox);
+        assertThat(lastBox)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "flashcards")
+                .isEqualTo(boxes.getLast());
     }
 
 }

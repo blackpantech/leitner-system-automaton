@@ -3,6 +3,3 @@ spring:
     name: leitner-system-automaton
   banner:
     location: banner.txt
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
