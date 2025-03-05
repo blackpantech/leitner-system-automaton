@@ -196,13 +196,13 @@ public class JpaFlashcardsRepositoryTest {
         final FlashcardEntity dummyFlashcard = new FlashcardEntity("", "", new String[]{}, box);
         final List<FlashcardEntity> expectedFlashcards = Collections.singletonList(dummyFlashcard);
         when(boxesJpaRepository.findById(boxId)).thenReturn(Optional.of(box));
-        when(flashcardsJpaRepository.findAllByBox(box)).thenReturn(expectedFlashcards);
+        when(flashcardsJpaRepository.findAllByCurrentBox(box)).thenReturn(expectedFlashcards);
 
         final List<Flashcard> flashcards = jpaFlashcardsRepository.getAllFlashcardsFromBox(boxId);
 
         assertNotNull(flashcards);
         verify(boxesJpaRepository).findById(boxId);
-        verify(flashcardsJpaRepository).findAllByBox(box);
+        verify(flashcardsJpaRepository).findAllByCurrentBox(box);
         verifyNoMoreInteractions(flashcardsJpaRepository, boxesJpaRepository);
     }
 

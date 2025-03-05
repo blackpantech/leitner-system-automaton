@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface FlashcardsJpaRepository extends JpaRepository<FlashcardEntity, Long> {
 
-    @Query("select flashcards from FlashcardEntity flashcards where :tag in flashcards.tags")
+    @Query("select flashcards from FlashcardEntity flashcards where :tag in (flashcards.tags)")
     List<FlashcardEntity> findAllWithTag(final String tag);
 
-    List<FlashcardEntity> findAllByBox(final BoxEntity box);
+    List<FlashcardEntity> findAllByCurrentBox(final BoxEntity box);
 
-    @Query("select flashcards from FlashcardEntity flashcards where :box = flashcards.currentBox and :tag in flashcards.tags")
+    @Query("select flashcards from FlashcardEntity flashcards where :box = flashcards.currentBox and :tag in (flashcards.tags)")
     List<FlashcardEntity> findAllWithTagInBox(final String tag, final BoxEntity box);
 
 }

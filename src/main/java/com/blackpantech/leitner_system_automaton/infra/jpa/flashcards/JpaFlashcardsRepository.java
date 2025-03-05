@@ -130,7 +130,7 @@ public class JpaFlashcardsRepository implements FlashcardsRepository {
     public List<Flashcard> getAllFlashcardsFromBox(final long boxId) throws BoxNotFoundException {
         final BoxEntity boxToFetch = getNonOptionalBox(boxId);
 
-        return flashcardEntityMapper.FlashcardEntitiesToFlashcards(flashcardsJpaRepository.findAllByBox(boxToFetch));
+        return flashcardEntityMapper.FlashcardEntitiesToFlashcards(flashcardsJpaRepository.findAllByCurrentBox(boxToFetch));
     }
 
     @Override
