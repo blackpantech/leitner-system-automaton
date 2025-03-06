@@ -71,6 +71,25 @@ public class FlashcardsServiceTest {
             "10, What is the capital of France?, Paris, Geography",
             "45, What is the return code range for server errors?, 500, Programming"
     })
+    @DisplayName("should edit an existing flashcard without modifying the current box")
+    void shouldEditFlashcardWithoutBox(final long id, final String question, final String answer, final String tags)
+            throws FlashcardNotFoundException {
+        final Flashcard expectedFlashcard = new Flashcard(id, question, answer, new String[]{tags}, dummyBox);
+        when(flashcardsRepository.editFlashcard(id, question, answer, new String[]{tags}))
+                .thenReturn(expectedFlashcard);
+
+        final Flashcard editedFlashcard = flashcardsService.editFlashcard(id, question, answer, new String[]{tags});
+
+        assertEquals(expectedFlashcard, editedFlashcard);
+        verify(flashcardsRepository).editFlashcard(id, question, answer, new String[]{tags});
+        verifyNoMoreInteractions(flashcardsRepository);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "10, What is the capital of France?, Paris, Geography",
+            "45, What is the return code range for server errors?, 500, Programming"
+    })
     @DisplayName("should throw not found when editing a flashcard")
     void shouldThrowFlashcardNotFoundException_whenEditFlashcard(final long id,
                                                                  final String question,

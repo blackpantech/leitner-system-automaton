@@ -36,6 +36,7 @@ public class FlashcardsService {
      * @param question edited flashcard's question
      * @param answer edited flashcard's answer
      * @param tags edited flashcard's tags
+     * @param box edited flashcard's box
      *
      * @return edited flashcard
      *
@@ -48,6 +49,26 @@ public class FlashcardsService {
                                    final Box box)
             throws FlashcardNotFoundException {
         return flashcardsRepository.editFlashcard(id, question, answer, tags, box);
+    }
+
+    /**
+     * Edits a flashcard with given ID
+     *
+     * @param id flashcard's ID to edit
+     * @param question edited flashcard's question
+     * @param answer edited flashcard's answer
+     * @param tags edited flashcard's tags
+     *
+     * @return edited flashcard
+     *
+     * @throws FlashcardNotFoundException if no flashcard has given ID
+     */
+    public Flashcard editFlashcard(final long id,
+                                   final String question,
+                                   final String answer,
+                                   final String[] tags)
+            throws FlashcardNotFoundException {
+        return flashcardsRepository.editFlashcard(id, question, answer, tags);
     }
 
     /**

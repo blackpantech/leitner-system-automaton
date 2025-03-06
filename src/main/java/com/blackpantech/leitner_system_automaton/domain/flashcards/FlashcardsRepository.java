@@ -29,6 +29,7 @@ public interface FlashcardsRepository {
      * @param question edited flashcard's question
      * @param answer edited flashcard's answer
      * @param tags edited flashcard's tags
+     * @param currentBox edited flashcard's box
      *
      * @return edited flashcard
      *
@@ -39,6 +40,21 @@ public interface FlashcardsRepository {
                             final String answer,
                             final String[] tags,
                             final Box currentBox)
+            throws FlashcardNotFoundException;
+
+    /**
+     * Edits a flashcard with given ID without editing the box
+     *
+     * @param id flashcard's ID to edit
+     * @param question edited flashcard's question
+     * @param answer edited flashcard's answer
+     * @param tags edited flashcard's tags
+     *
+     * @return edited flashcard
+     *
+     * @throws FlashcardNotFoundException if no flashcard has given ID
+     */
+    Flashcard editFlashcard(final long id, final String question, final String answer, final String[] tags)
             throws FlashcardNotFoundException;
 
     /**

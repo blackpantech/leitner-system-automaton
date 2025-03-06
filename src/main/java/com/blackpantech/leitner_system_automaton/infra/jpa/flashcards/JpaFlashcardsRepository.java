@@ -49,10 +49,30 @@ public class JpaFlashcardsRepository implements FlashcardsRepository {
     }
 
     @Override
-    public Flashcard editFlashcard(final long id, final String question, final String answer, final String[] tags, final Box currentBox) throws FlashcardNotFoundException {
+    public Flashcard editFlashcard(final long id,
+                                   final String question,
+                                   final String answer,
+                                   final String[] tags,
+                                   final Box currentBox)
+            throws FlashcardNotFoundException {
         final FlashcardEntity flashcardToEdit = getNonOptionalFlashcard(id);
 
         final FlashcardEntity editedFlashcard = getEditedFlashcard(flashcardToEdit, question, answer, tags, currentBox);
+
+        final FlashcardEntity savedEditedFlashcard = flashcardsJpaRepository.save(editedFlashcard);
+
+        return flashcardEntityMapper.FlashcardEntityToFlashcard(savedEditedFlashcard);
+    }
+
+    @Override
+    public Flashcard editFlashcard(final long id,
+                                   final String question,
+                                   final String answer,
+                                   final String[] tags)
+            throws FlashcardNotFoundException {
+        final FlashcardEntity flashcardToEdit = getNonOptionalFlashcard(id);
+
+        final FlashcardEntity editedFlashcard = getEditedFlashcard(flashcardToEdit, question, answer, tags);
 
         final FlashcardEntity savedEditedFlashcard = flashcardsJpaRepository.save(editedFlashcard);
 
@@ -79,6 +99,27 @@ public class JpaFlashcardsRepository implements FlashcardsRepository {
         flashcardToEdit.setAnswer(answer);
         flashcardToEdit.setTags(tags);
         flashcardToEdit.setCurrentBox(boxEntityMapper.BoxToBoxEntity(currentBox));
+
+        return flashcardToEdit;
+    }
+
+    /**
+     * Edits flashcard object with new fields
+     *
+     * @param flashcardToEdit flashcard to edit
+     * @param question edited question
+     * @param answer edited answer
+     * @param tags edited tags
+     *
+     * @return edited flashcard
+     */
+    private FlashcardEntity getEditedFlashcard(final FlashcardEntity flashcardToEdit,
+                                               final String question,
+                                               final String answer,
+                                               final String[] tags) {
+        flashcardToEdit.setQuestion(question);
+        flashcardToEdit.setAnswer(answer);
+        flashcardToEdit.setTags(tags);
 
         return flashcardToEdit;
     }
@@ -134,7 +175,8 @@ public class JpaFlashcardsRepository implements FlashcardsRepository {
     }
 
     @Override
-    public List<Flashcard> getAllFlashcardsWithTagFromBox(final long boxId, final String tag) throws BoxNotFoundException {
+    public List<Flashcard> getAllFlashcardsWithTagFromBox(final long boxId, final String tag)
+            throws BoxNotFoundException {
         final BoxEntity boxToFetch = getNonOptionalBox(boxId);
 
         return flashcardEntityMapper.FlashcardEntitiesToFlashcards(

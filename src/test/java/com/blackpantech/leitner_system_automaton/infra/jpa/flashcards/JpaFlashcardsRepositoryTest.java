@@ -93,6 +93,33 @@ public class JpaFlashcardsRepositoryTest {
             "10, What is the capital of France?, Paris, Geography",
             "45, What is the return code range for server errors?, 500, Programming"
     })
+    @DisplayName("should edit an existing flashcard without modifying the box")
+    void shouldEditFlashcardWithoutBox(final long id, final String question, final String answer, final String tags)
+            throws FlashcardNotFoundException {
+        final FlashcardEntity expectedFlashcard = new FlashcardEntity(question, answer, new String[]{tags}, box1);
+        when(flashcardsJpaRepository.findById(id)).thenReturn(Optional.of(expectedFlashcard));
+        final FlashcardEntity editedFlashcard = new FlashcardEntity(question + "edit",
+                answer + "edit",
+                new String[]{tags, "edit"},
+                box1);
+        when(flashcardsJpaRepository.save(editedFlashcard)).thenReturn(editedFlashcard);
+
+        final Flashcard returnedEditedFlashcard = jpaFlashcardsRepository.editFlashcard(id,
+                question + "edit",
+                answer + "edit",
+                new String[]{tags, "edit"});
+
+        assertNotNull(returnedEditedFlashcard);
+        verify(flashcardsJpaRepository).findById(id);
+        verify(flashcardsJpaRepository).save(expectedFlashcard);
+        verifyNoMoreInteractions(flashcardsJpaRepository);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "10, What is the capital of France?, Paris, Geography",
+            "45, What is the return code range for server errors?, 500, Programming"
+    })
     @DisplayName("should throw not found when editing a flashcard")
     void shouldThrowFlashcardNotFoundException_whenEditFlashcard(final long id,
                                                                  final String question,
