@@ -30,13 +30,13 @@ public class JpaBoxesRepositoryTest {
     JpaBoxesRepository jpaBoxesRepository;
 
     final List<BoxEntity> boxes = Arrays.asList(
-            new BoxEntity(1),
-            new BoxEntity(2),
-            new BoxEntity(4),
-            new BoxEntity(8),
-            new BoxEntity(16),
-            new BoxEntity(32),
-            new BoxEntity(64)
+            new BoxEntity(0L, 1),
+            new BoxEntity(1L, 2),
+            new BoxEntity(2L, 4),
+            new BoxEntity(3L, 8),
+            new BoxEntity(4L, 16),
+            new BoxEntity(5L, 32),
+            new BoxEntity(6L, 64)
     );
 
     @ParameterizedTest

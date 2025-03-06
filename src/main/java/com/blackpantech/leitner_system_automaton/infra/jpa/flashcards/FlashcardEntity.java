@@ -18,6 +18,7 @@ public class FlashcardEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "ID")
     private long id;
 
     @Column(name = "QUESTION")
@@ -34,7 +35,7 @@ public class FlashcardEntity {
     private BoxEntity currentBox;
 
     protected FlashcardEntity() {
-
+        // default hibernate constructor
     }
 
     public FlashcardEntity(final String question, final String answer, final String[] tags, final BoxEntity currentBox) {

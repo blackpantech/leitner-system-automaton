@@ -3,7 +3,6 @@ package com.blackpantech.leitner_system_automaton.infra.jpa.boxes;
 import com.blackpantech.leitner_system_automaton.infra.jpa.flashcards.FlashcardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -17,7 +16,7 @@ import java.util.Set;
 public class BoxEntity {
 
     @Id
-    @GeneratedValue
+    @Column(name = "ID")
     private long id;
 
     @Column(name = "FREQUENCY")
@@ -27,10 +26,11 @@ public class BoxEntity {
     private final Set<FlashcardEntity> flashcards = new HashSet<>();
 
     protected BoxEntity() {
-
+        // default hibernate constructor
     }
 
-    public BoxEntity(final int frequency) {
+    public BoxEntity(final long id, final int frequency) {
+        this.id = id;
         this.frequency = frequency;
     }
 

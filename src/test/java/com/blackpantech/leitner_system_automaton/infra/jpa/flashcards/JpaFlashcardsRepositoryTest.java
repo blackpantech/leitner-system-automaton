@@ -37,7 +37,7 @@ public class JpaFlashcardsRepositoryTest {
     @Autowired
     JpaFlashcardsRepository jpaFlashcardsRepository;
 
-    final BoxEntity box1 = new BoxEntity(1);
+    final BoxEntity box1 = new BoxEntity(0L, 1);
 
     final Box dummyBox = new Box(0L, 1);
 
@@ -192,7 +192,7 @@ public class JpaFlashcardsRepositoryTest {
     @ValueSource(longs = {1L, 4L, 6L})
     @DisplayName("should get all flashcards from box")
     void shouldGetAllFlashcardsFromBox(final long boxId) throws BoxNotFoundException {
-        final BoxEntity box = new BoxEntity(1 << (int) boxId);
+        final BoxEntity box = new BoxEntity(boxId, 1 << (int) boxId);
         final FlashcardEntity dummyFlashcard = new FlashcardEntity("", "", new String[]{}, box);
         final List<FlashcardEntity> expectedFlashcards = Collections.singletonList(dummyFlashcard);
         when(boxesJpaRepository.findById(boxId)).thenReturn(Optional.of(box));
@@ -213,7 +213,7 @@ public class JpaFlashcardsRepositoryTest {
     })
     @DisplayName("should get all flashcards with tag from box")
     void shouldGetAllFlashcardsWithTagFromBox(final long boxId, final String tag) throws BoxNotFoundException {
-        final BoxEntity box = new BoxEntity(1 << (int) boxId);
+        final BoxEntity box = new BoxEntity(boxId, 1 << (int) boxId);
         final FlashcardEntity dummyFlashcard = new FlashcardEntity("", "", new String[]{tag}, box);
         final List<FlashcardEntity> expectedFlashcards = Collections.singletonList(dummyFlashcard);
         when(boxesJpaRepository.findById(boxId)).thenReturn(Optional.of(box));
