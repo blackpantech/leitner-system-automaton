@@ -3,3 +3,6 @@ spring:
     name: leitner-system-automaton
   banner:
     location: banner.txt
+
+discord:
+  token: {{ discord.token }}
