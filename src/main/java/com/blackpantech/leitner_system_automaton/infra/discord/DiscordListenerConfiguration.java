@@ -1,6 +1,7 @@
 package com.blackpantech.leitner_system_automaton.infra.discord;
 
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsService;
+import com.blackpantech.leitner_system_automaton.domain.leitner_system.LeitnerSystemService;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -18,35 +19,42 @@ import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 public class DiscordListenerConfiguration {
 
     @Bean
-    public JDA jda(@Value("${discord.token}") final String token, final FlashcardsService flashcardsService) {
+    public JDA jda(@Value("${discord.token}") final String token,
+                   final FlashcardsService flashcardsService,
+                   final LeitnerSystemService leitnerSystemService) {
         final JDA jda = JDABuilder.createLight(token, Collections.emptyList())
-                .addEventListeners(new SlashCommandsListener(flashcardsService))
+                .addEventListeners(new SlashCommandsListener(flashcardsService, leitnerSystemService))
                 .build();
 
-        // Register your commands to make them visible globally on Discord:
+        // Registering commands to make them visible globally on Discord:
         final CommandListUpdateAction commands = jda.updateCommands();
 
-        // Add all your commands on this action instance
+        // Adding all commands on this action instance
         final CommandListUpdateAction commandData =  commands.addCommands(
-                Commands.slash("create-flashcard", "creates a new flashcard")
-                        .addOption(STRING, "question", "Question of the flashcard", true)
-                        .addOption(STRING, "answer", "Answer of the question", true)
-                        .addOption(STRING, "tags", "Tags, separate with commas"),
-                Commands.slash("edit-flashcard", "edits an existing flashcard")
-                        .addOption(INTEGER, "id", "ID of the flashcard", true)
-                        .addOption(STRING, "question", "Question of the flashcard", true)
-                        .addOption(STRING, "answer", "Answer of the question", true)
-                        .addOption(STRING, "tags", "Tags, separate with commas"),
-                Commands.slash("get-flashcard", "gets an existing flashcard")
-                        .addOption(INTEGER, "id", "ID of the flashcard", true),
-                Commands.slash("delete-flashcard", "deletes an existing flashcard")
-                        .addOption(INTEGER, "id", "ID of the flashcard", true),
-                Commands.slash("get-all-flashcards", "gets all flashcards"),
-                Commands.slash("get-all-flashcards-with-tag", "gets all flashcards with tag")
-                        .addOption(STRING, "tag", "Tag to filter flashcards", true)
+                Commands.slash(DiscordConstants.CREATE_FLASHCARD_EVENT, "Creates a new flashcard")
+                        .addOption(STRING, DiscordConstants.QUESTION, "Question of the flashcard", true)
+                        .addOption(STRING, DiscordConstants.ANSWER, "Answer of the question", true)
+                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separate with commas"),
+                Commands.slash(DiscordConstants.EDIT_FLASHCARD_EVENT, "Edits an existing flashcard")
+                        .addOption(INTEGER, DiscordConstants.ID, "ID of the flashcard", true)
+                        .addOption(STRING, DiscordConstants.QUESTION, "Question of the flashcard", true)
+                        .addOption(STRING, DiscordConstants.ANSWER, "Answer of the question", true)
+                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separate with commas"),
+                Commands.slash(DiscordConstants.GET_FLASHCARD_EVENT, "Gets an existing flashcard")
+                        .addOption(INTEGER, DiscordConstants.ID, "ID of the flashcard", true),
+                Commands.slash(DiscordConstants.DELETE_FLASHCARD_EVENT, "Deletes an existing flashcard")
+                        .addOption(INTEGER, DiscordConstants.ID, "ID of the flashcard", true),
+                Commands.slash(DiscordConstants.GET_ALL_FLASHCARDS_EVENT, "Gets all flashcards"),
+                Commands.slash(DiscordConstants.GET_ALL_FLASHCARDS_WITH_TAG_EVENT, "Gets all flashcards with tag")
+                        .addOption(STRING, DiscordConstants.TAG, "Tag to filter flashcards", true),
+                Commands.slash(DiscordConstants.GET_SESSION_QUESTIONNAIRE_EVENT, "Get a new questionnaire")
+                        .addOption(INTEGER, DiscordConstants.SESSION, "Session number", true),
+                Commands.slash(DiscordConstants.GET_SESSION_QUESTIONNAIRE_WITH_TAG_EVENT, "Get a new questionnaire with a specific tag")
+                        .addOption(INTEGER, DiscordConstants.SESSION, "Session number", true)
+                        .addOption(STRING, DiscordConstants.TAG, "Tag to filter flashcards", true)
         );
 
-        // Then finally send your commands to discord using the API
+        // Then finally sending commands to discord using the API
         commandData.queue();
 
         return jda;
