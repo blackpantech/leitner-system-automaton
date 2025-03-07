@@ -40,7 +40,7 @@ public class LeitnerSystemService {
     }
 
     /**
-     * Gets session flashcards
+     * Gets session flashcards with a given tag
      *
      * @param numberOfSessions number of sessions since the beginning of the study plan
      * @param tag tag to filter session flashcards

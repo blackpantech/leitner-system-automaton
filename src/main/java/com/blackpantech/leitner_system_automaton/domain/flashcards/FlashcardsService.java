@@ -105,7 +105,7 @@ public class FlashcardsService {
     }
 
     /**
-     * Gets a list of all flashcards
+     * Gets a list of all flashcards with a given tag
      *
      * @param tag tag to filter all flashcards
      *
