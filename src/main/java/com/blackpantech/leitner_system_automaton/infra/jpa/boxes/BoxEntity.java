@@ -51,13 +51,12 @@ public class BoxEntity {
         if (o == null || getClass() != o.getClass()) return false;
         BoxEntity boxEntity = (BoxEntity) o;
         return id == boxEntity.id &&
-                frequency == boxEntity.frequency &&
-                Objects.equals(flashcards, boxEntity.flashcards);
+                frequency == boxEntity.frequency;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, frequency, flashcards);
+        return Objects.hash(id, frequency);
     }
 
 }

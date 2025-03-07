@@ -4,6 +4,7 @@ import com.blackpantech.leitner_system_automaton.infra.jpa.boxes.BoxEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,8 +18,7 @@ import java.util.Objects;
 public class FlashcardEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "QUESTION")
@@ -31,7 +31,7 @@ public class FlashcardEntity {
     private String[] tags;
 
     @ManyToOne
-    @JoinColumn(name = "box_id")
+    @JoinColumn(name = "BOX_ID")
     private BoxEntity currentBox;
 
     protected FlashcardEntity() {
