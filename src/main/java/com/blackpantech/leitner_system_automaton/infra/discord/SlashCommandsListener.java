@@ -261,15 +261,18 @@ public class SlashCommandsListener extends ListenerAdapter {
      */
     private void sendSessionFlashcards(final SlashCommandInteractionEvent slashCommandEvent,
                                        final List<Flashcard> sessionFlashcards) {
-        // Lets the user know we received the command before doing anything else
-        slashCommandEvent.deferReply(false).queue();
+        if (sessionFlashcards.isEmpty()) {
+            replyMessage(slashCommandEvent, "No flashcards to study today!");
+        } else {
+            // Lets the user know we received the command before doing anything else
+            slashCommandEvent.deferReply(false).queue();
+            for (final Flashcard sessionFlashcard : sessionFlashcards) {
+                final String positiveButtonId = createButtonId(DiscordConstants.CORRECT, sessionFlashcard.id());
+                final String negativeButtonId = createButtonId(DiscordConstants.INCORRECT, sessionFlashcard.id());
+                final String flashcardMessage = createFlashcardMessage(sessionFlashcard);
 
-        for (final Flashcard sessionFlashcard : sessionFlashcards) {
-            final String positiveButtonId = createButtonId(DiscordConstants.CORRECT, sessionFlashcard.id());
-            final String negativeButtonId = createButtonId(DiscordConstants.INCORRECT, sessionFlashcard.id());
-            final String flashcardMessage = createFlashcardMessage(sessionFlashcard);
-
-            sendDetachedMessageWithButtons(slashCommandEvent, flashcardMessage, positiveButtonId, negativeButtonId);
+                sendDetachedMessageWithButtons(slashCommandEvent, flashcardMessage, positiveButtonId, negativeButtonId);
+            }
         }
     }
 
