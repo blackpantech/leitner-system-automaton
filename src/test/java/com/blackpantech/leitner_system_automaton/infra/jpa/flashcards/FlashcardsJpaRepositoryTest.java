@@ -42,11 +42,11 @@ public class FlashcardsJpaRepositoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, 2",
-            "0, 1",
-            "4, 1",
-            "6, 1",
-            "5, 0"
+            "3, 2",
+            "1, 1",
+            "5, 1",
+            "7, 1",
+            "6, 0"
     })
     @DisplayName("should find all by current box")
     void shouldFindAllByCurrentBox(final long boxId, final int expectedNumberOfElements) {
@@ -61,10 +61,10 @@ public class FlashcardsJpaRepositoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "Geography, 0, 1",
-            "Geography, 6, 1",
-            "Maths, 4, 1",
-            "Programming, 0, 0",
+            "Geography, 1, 1",
+            "Geography, 7, 1",
+            "Maths, 5, 1",
+            "Programming, 1, 0",
     })
     @DisplayName("should find all flashcards with tag by current box")
     void shouldFindAllByCurrentBox(final String tag, final long boxId, final int expectedNumberOfElements) {
