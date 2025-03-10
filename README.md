@@ -38,8 +38,18 @@ The 'dev' profile is more geared towards development usage because it uses an in
 
 ## How to install the bot
 
-### Prerequisites
+#### Database
 
-### Installation
+Create a PostgreSQL schema and run the 'init-deb.sql' script to create and initialize tables.
+In 'application-prod.yml', replace the placeholders for datasource URL, username and password to connect to your database.
+
+#### Discord
+
+You can find Discord's official documentation for apps here:
+https://discord.com/developers/docs/intro
+
+You will need to create an app and install it to your server.
+
+You need to generate or save the token associated to the app and replace the '{{ discord.token }}' placeholder in 'application.yml'
 
 ## How to use the bot
