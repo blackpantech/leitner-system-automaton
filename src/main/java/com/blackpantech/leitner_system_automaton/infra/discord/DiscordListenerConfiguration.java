@@ -47,10 +47,8 @@ public class DiscordListenerConfiguration {
                 Commands.slash(DiscordConstants.GET_ALL_FLASHCARDS_EVENT, "Gets all flashcards"),
                 Commands.slash(DiscordConstants.GET_ALL_FLASHCARDS_WITH_TAG_EVENT, "Gets all flashcards with tag")
                         .addOption(STRING, DiscordConstants.TAG, "Tag to filter flashcards", true),
-                Commands.slash(DiscordConstants.GET_SESSION_QUESTIONNAIRE_EVENT, "Get a new questionnaire")
-                        .addOption(INTEGER, DiscordConstants.SESSION, "Session number", true),
+                Commands.slash(DiscordConstants.GET_SESSION_QUESTIONNAIRE_EVENT, "Get a new questionnaire"),
                 Commands.slash(DiscordConstants.GET_SESSION_QUESTIONNAIRE_WITH_TAG_EVENT, "Get a new questionnaire with a specific tag")
-                        .addOption(INTEGER, DiscordConstants.SESSION, "Session number", true)
                         .addOption(STRING, DiscordConstants.TAG, "Tag to filter flashcards", true)
         );
 

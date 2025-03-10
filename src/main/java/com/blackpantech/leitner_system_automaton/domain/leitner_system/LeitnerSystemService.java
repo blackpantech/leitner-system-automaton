@@ -6,6 +6,7 @@ import com.blackpantech.leitner_system_automaton.domain.flashcards.Flashcard;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsRepository;
 import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotFoundException;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
+import com.blackpantech.leitner_system_automaton.domain.sessions.SessionsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +20,24 @@ public class LeitnerSystemService {
 
     private final BoxesRepository boxesRepository;
 
-    public LeitnerSystemService(final FlashcardsRepository flashcardsRepository, final BoxesRepository boxesRepository) {
+    private final SessionsRepository sessionsRepository;
+
+    public LeitnerSystemService(final FlashcardsRepository flashcardsRepository,
+                                final BoxesRepository boxesRepository,
+                                final SessionsRepository sessionsRepository) {
         this.flashcardsRepository = flashcardsRepository;
         this.boxesRepository = boxesRepository;
+        this.sessionsRepository = sessionsRepository;
     }
 
     /**
      * Gets session flashcards
      *
-     * @param numberOfSessions number of sessions since the beginning of the study plan
-     *
      * @return session flashcards
      */
-    public List<Flashcard> getSessionQuestionnaire(final int numberOfSessions) {
+    public List<Flashcard> getSessionQuestionnaire() {
         final List<Box> boxes = boxesRepository.getAllBoxes();
+        final int numberOfSessions = sessionsRepository.getIncrementedNumberOfSessions();
 
         final List<Box> sessionBoxes = getSessionBoxes(numberOfSessions, boxes);
 
@@ -42,13 +47,13 @@ public class LeitnerSystemService {
     /**
      * Gets session flashcards with a given tag
      *
-     * @param numberOfSessions number of sessions since the beginning of the study plan
      * @param tag tag to filter session flashcards
      *
      * @return session flashcards with tag
      */
-    public List<Flashcard> getSessionQuestionnaireWithTag(final int numberOfSessions, final String tag) {
+    public List<Flashcard> getSessionQuestionnaireWithTag(final String tag) {
         final List<Box> boxes = boxesRepository.getAllBoxes();
+        final int numberOfSessions = sessionsRepository.getIncrementedNumberOfSessions();
 
         final List<Box> sessionBoxes = getSessionBoxes(numberOfSessions, boxes);
 

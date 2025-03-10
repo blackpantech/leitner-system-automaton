@@ -4,6 +4,7 @@ import com.blackpantech.leitner_system_automaton.domain.boxes.BoxesRepository;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsRepository;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsService;
 import com.blackpantech.leitner_system_automaton.domain.leitner_system.LeitnerSystemService;
+import com.blackpantech.leitner_system_automaton.domain.sessions.SessionsRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,8 +36,9 @@ public class ServicesConfiguration {
      */
     @Bean
     public LeitnerSystemService leitnerSystemService(final FlashcardsRepository flashcardsRepository,
-                                                     final BoxesRepository boxesRepository) {
-        return new LeitnerSystemService(flashcardsRepository, boxesRepository);
+                                                     final BoxesRepository boxesRepository,
+                                                     final SessionsRepository sessionsRepository) {
+        return new LeitnerSystemService(flashcardsRepository, boxesRepository, sessionsRepository);
     }
 
 }

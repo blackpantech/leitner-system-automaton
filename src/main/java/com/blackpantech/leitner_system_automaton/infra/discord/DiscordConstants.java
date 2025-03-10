@@ -14,8 +14,6 @@ public class DiscordConstants {
 
     public final static String TAG = "tag";
 
-    public final static String SESSION = "session";
-
     public final static String CORRECT = "correct";
 
     public final static Emoji POSITIVE_CHECKMARK = Emoji.fromUnicode("U+2705");

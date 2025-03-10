@@ -6,6 +6,7 @@ import com.blackpantech.leitner_system_automaton.domain.boxes.exceptions.BoxNotF
 import com.blackpantech.leitner_system_automaton.domain.flashcards.Flashcard;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.FlashcardsRepository;
 import com.blackpantech.leitner_system_automaton.domain.flashcards.exceptions.FlashcardNotFoundException;
+import com.blackpantech.leitner_system_automaton.domain.sessions.SessionsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +34,12 @@ public class LeitnerSystemServiceTest {
     @Mock
     final BoxesRepository boxesRepository = mock(BoxesRepository.class);
 
-    final LeitnerSystemService leitnerSystemService = new LeitnerSystemService(flashcardsRepository, boxesRepository);
+    @Mock
+    final SessionsRepository sessionsRepository = mock(SessionsRepository.class);
+
+    final LeitnerSystemService leitnerSystemService = new LeitnerSystemService(flashcardsRepository,
+            boxesRepository,
+            sessionsRepository);
 
     final List<Box> boxes = Arrays.asList(
             new Box(0L, 1),
@@ -76,6 +82,7 @@ public class LeitnerSystemServiceTest {
     @DisplayName("should get session questionnaire")
     void shouldGetSessionQuestionnaire(final int numberOfSessions, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
+        when(sessionsRepository.getIncrementedNumberOfSessions()).thenReturn(numberOfSessions);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {
             when(flashcardsRepository.getAllFlashcardsFromBox(boxId)).thenReturn(
@@ -85,12 +92,13 @@ public class LeitnerSystemServiceTest {
             );
         }
 
-        final List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaire(numberOfSessions);
+        final List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaire();
 
         assertEquals(boxesId.length, sessionQuestionnaire.size());
         verify(boxesRepository).getAllBoxes();
+        verify(sessionsRepository).getIncrementedNumberOfSessions();
         verify(flashcardsRepository, times(boxesId.length)).getAllFlashcardsFromBox(anyLong());
-        verifyNoMoreInteractions(boxesRepository, flashcardsRepository);
+        verifyNoMoreInteractions(boxesRepository, flashcardsRepository, sessionsRepository);
     }
 
     @ParameterizedTest
@@ -101,6 +109,7 @@ public class LeitnerSystemServiceTest {
     @DisplayName("should get session questionnaire with specific tag")
     void shouldGetSessionQuestionnaireWithTag(final int numberOfSessions, final String tag, final String boxesIdString) throws BoxNotFoundException {
         when(boxesRepository.getAllBoxes()).thenReturn(boxes);
+        when(sessionsRepository.getIncrementedNumberOfSessions()).thenReturn(numberOfSessions);
         final long[] boxesId = convertCharArrayToLongArray(boxesIdString.toCharArray());
         for (long boxId : boxesId) {
             when(flashcardsRepository.getAllFlashcardsWithTagFromBox(boxId, tag)).thenReturn(
@@ -110,12 +119,13 @@ public class LeitnerSystemServiceTest {
             );
         }
 
-        List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaireWithTag(numberOfSessions, tag);
+        List<Flashcard> sessionQuestionnaire = leitnerSystemService.getSessionQuestionnaireWithTag(tag);
 
         assertEquals(boxesId.length, sessionQuestionnaire.size());
         verify(boxesRepository).getAllBoxes();
+        verify(sessionsRepository).getIncrementedNumberOfSessions();
         verify(flashcardsRepository, times(boxesId.length)).getAllFlashcardsWithTagFromBox(anyLong(), eq(tag));
-        verifyNoMoreInteractions(boxesRepository, flashcardsRepository);
+        verifyNoMoreInteractions(boxesRepository, flashcardsRepository, sessionsRepository);
     }
 
     @ParameterizedTest

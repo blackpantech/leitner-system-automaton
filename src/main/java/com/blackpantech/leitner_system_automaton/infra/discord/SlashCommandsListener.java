@@ -97,7 +97,7 @@ public class SlashCommandsListener extends ListenerAdapter {
      * @throws FlashcardNotFoundException – if no flashcard has given ID
      */
     private void editFlashcard(final SlashCommandInteractionEvent slashCommandEvent) throws FlashcardNotFoundException {
-        final long id = getNumericValueFromField(slashCommandEvent, DiscordConstants.ID);
+        final long id = getNumericValueOfIdFromField(slashCommandEvent);
         final String question = slashCommandEvent.getOption(DiscordConstants.QUESTION, OptionMapping::getAsString);
         final String answer = slashCommandEvent.getOption(DiscordConstants.ANSWER, OptionMapping::getAsString);
         final String[] tags = getTagsFromRawText(slashCommandEvent);
@@ -117,7 +117,7 @@ public class SlashCommandsListener extends ListenerAdapter {
      * @throws FlashcardNotFoundException if no flashcard has given ID
      */
     private void getFlashcard(final SlashCommandInteractionEvent slashCommandEvent) throws FlashcardNotFoundException {
-        final long id = getNumericValueFromField(slashCommandEvent, DiscordConstants.ID);
+        final long id = getNumericValueOfIdFromField(slashCommandEvent);
 
         final Flashcard foundFlashcard = flashcardsService.getFlashcard(id);
 
@@ -135,7 +135,7 @@ public class SlashCommandsListener extends ListenerAdapter {
      */
     private void deleteFlashcard(final SlashCommandInteractionEvent slashCommandEvent)
             throws FlashcardNotFoundException {
-        final long id = getNumericValueFromField(slashCommandEvent, DiscordConstants.ID);
+        final long id = getNumericValueOfIdFromField(slashCommandEvent);
 
         flashcardsService.deleteFlashcard(id);
 
@@ -176,9 +176,7 @@ public class SlashCommandsListener extends ListenerAdapter {
      * @param slashCommandEvent slash command event
      */
     private void getSessionQuestionnaire(final SlashCommandInteractionEvent slashCommandEvent) {
-        final int sessionNumber = getNumericValueFromField(slashCommandEvent, DiscordConstants.SESSION);
-
-        final List<Flashcard> sessionFlashcards = leitnerSystemService.getSessionQuestionnaire(sessionNumber);
+        final List<Flashcard> sessionFlashcards = leitnerSystemService.getSessionQuestionnaire();
 
         sendSessionFlashcards(slashCommandEvent, sessionFlashcards);
     }
@@ -189,11 +187,10 @@ public class SlashCommandsListener extends ListenerAdapter {
      * @param slashCommandEvent slash command event
      */
     private void getSessionQuestionnaireWithTag(final SlashCommandInteractionEvent slashCommandEvent) {
-        final int sessionNumber = getNumericValueFromField(slashCommandEvent, DiscordConstants.SESSION);
         final String tag = slashCommandEvent.getOption(DiscordConstants.TAG, OptionMapping::getAsString);
 
         final List<Flashcard> sessionFlashcardsWithTag =
-                leitnerSystemService.getSessionQuestionnaireWithTag(sessionNumber, tag);
+                leitnerSystemService.getSessionQuestionnaireWithTag(tag);
 
         sendSessionFlashcards(slashCommandEvent, sessionFlashcardsWithTag);
     }
@@ -202,12 +199,10 @@ public class SlashCommandsListener extends ListenerAdapter {
      * Gets a numeric value from a given field name
      *
      * @param slashCommandEvent slash command event
-     * @param fieldName field name
-     *
      * @return numeric value contained in the field
      */
-    private int getNumericValueFromField(final SlashCommandInteractionEvent slashCommandEvent, final String fieldName) {
-        return Objects.requireNonNull(slashCommandEvent.getOption(fieldName, OptionMapping::getAsInt));
+    private int getNumericValueOfIdFromField(final SlashCommandInteractionEvent slashCommandEvent) {
+        return Objects.requireNonNull(slashCommandEvent.getOption(DiscordConstants.ID, OptionMapping::getAsInt));
     }
 
     /**
