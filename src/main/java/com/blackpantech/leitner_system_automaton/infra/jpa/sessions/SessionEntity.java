@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "SESSIONS")
 public class SessionEntity {
@@ -42,9 +44,7 @@ public class SessionEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + sessionNumber;
-        return result;
+        return Objects.hash(id, sessionNumber);
     }
 
 }

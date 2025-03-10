@@ -6,7 +6,7 @@ spring:
     show-sql: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/leitner-system-automaton
+    url: jdbc:postgresql://localhost:5432/lsa
     username: lsa
     password: lsa
     driverClassName: org.postgresql.Driver
