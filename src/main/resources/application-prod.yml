@@ -6,9 +6,9 @@ spring:
     show-sql: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/lsa
-    username: lsa
-    password: lsa
+    url: {{ spring.datasource.url }}
+    username: {{ spring.datasource.username }}
+    password: {{ spring.datasource.password }}
     driverClassName: org.postgresql.Driver
 
 sql:
