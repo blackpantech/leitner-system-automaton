@@ -34,12 +34,12 @@ public class DiscordListenerConfiguration {
                 Commands.slash(DiscordConstants.CREATE_FLASHCARD_EVENT, "Creates a new flashcard")
                         .addOption(STRING, DiscordConstants.QUESTION, "Question of the flashcard", true)
                         .addOption(STRING, DiscordConstants.ANSWER, "Answer of the question", true)
-                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separate with commas"),
+                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separated with commas"),
                 Commands.slash(DiscordConstants.EDIT_FLASHCARD_EVENT, "Edits an existing flashcard")
                         .addOption(INTEGER, DiscordConstants.ID, "ID of the flashcard", true)
                         .addOption(STRING, DiscordConstants.QUESTION, "Question of the flashcard", true)
                         .addOption(STRING, DiscordConstants.ANSWER, "Answer of the question", true)
-                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separate with commas"),
+                        .addOption(STRING, DiscordConstants.TAGS, "Tags, separated with commas"),
                 Commands.slash(DiscordConstants.GET_FLASHCARD_EVENT, "Gets an existing flashcard")
                         .addOption(INTEGER, DiscordConstants.ID, "ID of the flashcard", true),
                 Commands.slash(DiscordConstants.DELETE_FLASHCARD_EVENT, "Deletes an existing flashcard")

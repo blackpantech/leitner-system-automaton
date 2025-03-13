@@ -53,3 +53,16 @@ You will need to create an app and install it to your server.
 You need to generate or save the token associated to the app and replace the '{{ discord.token }}' placeholder in 'application.yml'
 
 ## How to use the bot
+Once the bot is installed on your server, you can interact with it using slash commands.
+
+Commands are the following:
+- `/createflashcard <question> <answer> <optional tags separated with commas>`: Creates a new flashcard
+- `/editflashcard <id> <question> <answer> <optional tags separated with commas>`: Edits an existing flashcard with an ID and updated fields
+- `/getflashcard <id>`: Gets an existing flashcard with an ID
+- `/deleteflashcard <id>`: Deletes an existing flashcard with an ID
+- `/getallflashcards`: Gets all flashcards
+- `/getallflashcardswithtag <tag>`: Gets all flashcards with a specific tag
+- `/getsessionquestionnaire`: Gets a new questionnaire
+- `/getsessionquestionnairewithtag <tag>`: Gets a new questionnaire with a specific tag
+
+Session count is stored in a table and is updated every time you get a new questionnaire.
